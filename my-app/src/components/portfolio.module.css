@@ -1,0 +1,234 @@
+/* Estilos para o header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+  }
+  
+  .logo {
+    width: 100px;
+    height: auto;
+  }
+  
+  .searchBox {
+    flex-grow: 1;
+    text-align: right;
+  }
+  
+  .menuItems {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menuItems li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .menuItems li:last-child {
+    margin-right: 0;
+  }
+  
+  .menuItems li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  
+  .menuItems li a:hover {
+    color: #007bff;
+  }
+  
+  /* Estilos para a seção de introdução */
+  .sectionLayout {
+    padding: 40px 20px;
+  }
+  
+  #sectionIntro {
+    text-align: center;
+  }
+  
+  #sectionIntro h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  #sectionIntro > div {
+    margin-bottom: 20px;
+    width: 60%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #sectionIntro > div a {
+    font-size: 20px;
+  }
+  
+  #sectionIntroIcon {
+    text-align: center;
+    padding: 20px 0;
+  }
+  
+  #sectionIntroIcon img {
+    height: 4%;
+    max-width: 300px;
+  }
+  
+  /* Estilos para a seção de projetos */
+  .sectionProjects {
+    background-color: #f8f9fa;
+    padding: 40px 20px;
+  }
+  
+  .sectionProjects h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 28px;
+  }
+  
+  .gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .gridContainerEmpty {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .gridItem {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .gridItem img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .gridItem:hover img {
+    transform: scale(1.1);
+  }
+  
+  #TitlePost {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .arrowButton {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 40px;
+    cursor: pointer;
+  }
+  
+  .arrowButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .arrowDown {
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(45deg);
+  }
+  
+  /* Estilos para a seção "Sobre" */
+  .sectionAbout {
+    padding: 40px 20px;
+    background-color: #fff;
+  }
+  
+  .layoutAbout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .layoutAbout img {
+    height: 4%;
+    max-width: 300px;
+    margin-right: 20px;
+  }
+  
+  #s1eAbout {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  
+  /* Estilos para o rodapé */
+  .footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  
+  .footer a {
+    color: #fff;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  /* Estilos para a barra de rolagem */
+ 
+
+  #customScrollbar::-webkit-scrollbar {
+    width: 10px;
+    /* largura da barra de rolagem */
+  }
+  
+  #customScrollbar::-webkit-scrollbar-button {
+    display: none;
+    background-color: #ccc;
+    /* cor de fundo */
+  }
+  
+  #customScrollbar::-webkit-scrollbar-track {
+    display: none;
+    background-color: #f1f1f1;
+    /* cor de fundo */
+  }
+  
+  #customScrollbar::-webkit-scrollbar-thumb {
+  
+    background-color: #888;
+    /* cor de fundo */
+    border-radius: 5px;
+    /* borda arredondada */
+  }
+  
+  #customScrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    /* cor de fundo */
+  }
+  
