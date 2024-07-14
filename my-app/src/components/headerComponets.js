@@ -5,7 +5,7 @@ import logo from '../imgs/jpeg/logo.jpg';
 
 function HeaderComponets() {
     const [visibleSection, setVisibleSection] = useState('');
-    const adminClass = (localStorage.admin === 'ADMIN' || localStorage.admin === 'MODERADOR') ? '' : 'd-none';
+    const adminClass = (localStorage.role === 'ADMIN' || localStorage.role === 'MODERADOR') ? '' : 'd-none';
     useEffect(() => {
 
         const url = window.location.pathname;

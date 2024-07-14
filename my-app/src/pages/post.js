@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPostById } from '../services/apiService';
 import DOMPurify from 'dompurify';
+import PostService from '../scripts/services/postService';
 
 function Post() {
     const [post, setPost] = useState(null);
@@ -9,18 +9,17 @@ function Post() {
     const { id } = useParams();
 
     useEffect(() => {
-        const getInforPost = async () => {
-            try {
-                const data = await fetchPostById(id);
-                setPost(data);
-            } catch (error) {
-                window.location.href = '/pagina-nao-encontrada';
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        getInforPost();
+        PostService.fetchPostById(id)
+            .then(response => {
+                setPost(response);
+            })
+            .catch(() => {
+                window.location.href = '/pagina-nao-encontrada';
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     }, [id]);
 
     const createMarkup = (html) => {
@@ -36,7 +35,7 @@ function Post() {
         return (
             <div className="spinner-container">
                 <div className="spinner"></div>
-            </div>  
+            </div>
         );
     }
 
@@ -49,7 +48,7 @@ function Post() {
                 </div>
                 <p className='text-box' id='text' dangerouslySetInnerHTML={createMarkup(post.descricao)} />
                 <a href={post.github}>Github</a>
-            </div>  
+            </div>
         </div>
     );
 }

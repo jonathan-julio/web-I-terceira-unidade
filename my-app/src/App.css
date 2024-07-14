@@ -9,32 +9,42 @@
   flex: 1;
 }
 
-.card-fixed {
-  display: flex;
-  width: auto;
-  min-width: 250px;
+#card {
+  width: 290px;
   height: 400px;
-  
-  
 }
 
-.card-body-fixed {
+.card-body {
+  margin-bottom: 0;
+  padding: 0;
+}
 
+.card-fixed {
+  width: 290px;
+  height: 400px;
+  padding: 0;
+
+  margin: 0;
+}
+
+
+.card-body-fixed {
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100%;
-  width: 100%;
   border-radius: 3px;
 }
 
 .card-title,
-
 .card-text {
-  height: 40px;
+  height: 80px;
   max-width: 250px;
+  font-size: 12px;
 }
 
+#img-card {
+  height: 150px;
+  border-radius: 10px;
+}
 
 #loginDiv {
   min-height: 78vh;
@@ -46,9 +56,10 @@
 
 .bodyPage {
   margin: 0;
-  min-height: 85vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
 
 }
 
@@ -71,14 +82,16 @@
 }
 
 #posts-container {
+  justify-content: space-between;
   max-height: 800px;
+  max-width: 900px;
   min-width: 300px;
   margin-top: 10px;
   border-radius: 10px;
   border: 1px solid #dddddd;
   background: #e0e0e0;
   overflow-y: auto;
-  
+
 }
 
 .App-logo {
@@ -205,17 +218,14 @@ legend.scheduler-border {
 }
 
 
-.img-fluid {
-  max-height: 150px;
-  margin: 0;
-}
+
 
 .descWork {
   font-size: 12px;
   overflow: hidden;
-  text-overflow: ellipsis;
   text-align: start;
-  max-width: max-content;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .content2 {
@@ -271,8 +281,10 @@ legend.scheduler-border {
 }
 
 .spinner {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
+  border: 16px solid #f3f3f3;
+  /* Light grey */
+  border-top: 16px solid #3498db;
+  /* Blue */
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -281,8 +293,13 @@ legend.scheduler-border {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .spinner-container {
@@ -290,4 +307,179 @@ legend.scheduler-border {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.card {
+  margin-bottom: 20px;
+  padding: 30px;
+  max-width: 100%;
+}
+
+
+#labelCard .card-text {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  font-size: 12px;
+  text-align: center;
+}
+
+#labelCard .card-title {
+  text-align: center;
+}
+
+#labelCard .h5 {
+  margin: 0;
+  padding: 0;
+}
+
+.card img {
+  border-radius: 50%;
+  width: 150px;
+  margin: 20px auto;
+}
+
+.card-title,
+.card-text {
+  color: white;
+}
+
+.list-group-item {
+  background-color: #121212;
+  color: white;
+}
+
+.bi {
+  margin-right: 10px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  color:#f06f33 !important;
+}
+
+.folder {
+  min-height: 85vh;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  margin-bottom: 50px;
+  background: #1e1e1e;
+  display: block;
+  position: relative;
+  /* Alterado para relative para posicionar o ::before corretamente */
+  z-index: 1;
+}
+
+.folder::before {
+  content: attr(data-content);
+  position: absolute;
+  display: flex;
+  top: 0px;
+  /* Posicionamento em relação ao topo da .folder */
+  right: 0;
+  /* Alinhar à direita */
+  width: 370px;
+  height: 60px;
+  justify-content: flex-end;
+  /* Alinhar o conteúdo à direita dentro do ::before */
+  align-items: center;
+  text-align: center;
+  /* Centralizar o texto horizontalmente */
+  color: #61dafb;
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background: #272727;
+  z-index: 1;
+}
+
+.navbar-collapse {
+  display: flex;
+}
+
+
+
+
+
+@media screen and (max-width: 992px) {
+  .folder::before {
+    width: 430px;
+  }
+
+  .navbar-collapse {
+    display: flex;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .folder::before {
+    width: 330px;
+  }
+
+  .navbar-collapse {
+    display: flex;
+  }
+
+}
+
+
+
+@media screen and (max-width: 576px) {
+  .folder::before {
+    display: none;
+  }
+
+  .navbar-collapse {
+    display: block;
+  }
+
+  .navbar-collapse {
+    display: block;
+    position: absolute;
+    float: right;
+    width: 110px;
+    top: 49px;
+    right: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 376px) {
+  .folder::before {
+    width: 110px;
+  }
+
+  .navbar-collapse {
+    display: block;
+    position: absolute;
+    float: right;
+    width: 110px;
+    top: 49px;
+    right: 0;
+    border-bottom-left-radius: 10px;
+  }
+
+  .navbar-nav .nav-link {
+    color: black;
+    /* Cor inicial do texto */
+    transition: color 0.3s;
+    /* Transição suave para a mudança de cor */
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #61dafb;
+    /* Cor do texto ao passar o mouse */
+  }
+}
+
+
+#sidebar {
+  border-radius: 20px;
 }

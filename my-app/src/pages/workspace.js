@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap';
 
-import { isAuthenticated } from '../scripts/auth'; // Importe as funções
-import { fetchAllPost } from '../services/apiService';
+import { isConnected } from '../scripts/utils'; // Importe as funções
 import PostCard from '../components/postCard';
+import PostService from '../scripts/services/postService';
 
 function Workspace() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchAllPost();
-                const posts = data.map(post => {
+        PostService.fetchAllPosts()
+            .then(async response => {
+                const posts = response.map(post => {
                     return post;
                 });
                 setPosts(posts);
-
-            } catch (error) {
-                console.log(error)
-            }
-
-        };
-        fetchData();
+            })
+            .catch(error => console.error(error));
     }, []);
 
     function editPost(id) {
@@ -30,7 +24,7 @@ function Workspace() {
     }
 
     useEffect(() => {
-        isAuthenticated();
+        isConnected();
     }, []);
 
     return (
@@ -48,8 +42,8 @@ function Workspace() {
                         <div className="col d-flex row justify-content-center mx-0 mx-sm-4">
                             <h3 className='row d-flex justify-content-center'>Suas Publicações</h3>
                             <div id="posts-container">
-                                <div className="container ">
-                                    <div className="row " >
+                                <div className="">
+                                    <div className="row d-flex justify-content-start " >
                                         {posts.length === 0 ? (
                                             <p>Nenhum post disponível.</p>
                                         ) : (

@@ -23,7 +23,7 @@ const PostForm = ({ title, setTitle, descricao, setDescricao, github, setGithub,
     return (
         <div className="col">
             <h5 className='d-flex flex-wrap justify-content-start'>Título:*</h5>
-            <input type="text" className="form-control" id="title-container" name="nome" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            <input type="text"  maxLength={100} className="form-control" id="title-container" name="nome" value={title} onChange={(e) => setTitle(e.target.value)} required />
 
             <div className='col-5'>
                 <label className='d-flex flex-wrap justify-content-start' htmlFor="exampleFormControlFile1">
@@ -37,7 +37,7 @@ const PostForm = ({ title, setTitle, descricao, setDescricao, github, setGithub,
                 <h5 className='d-flex flex-wrap justify-content-start'>Descrição: *</h5>
                 <textarea
                     onKeyDown={handleTabKeyPress} // Captura o evento onKeyDown
-                    rows="10" className="form-control" id="descricao-container" placeholder="Adicione aqui uma descrição" aria-label="With textarea"
+                    rows="10" maxLength={100000} className="form-control" id="descricao-container" placeholder="Adicione aqui uma descrição" aria-label="With textarea"
                     value={descricao} onChange={(e) => setDescricao(e.target.value)}
                 ></textarea>
             </div>

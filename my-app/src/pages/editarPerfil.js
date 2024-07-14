@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PasswordForm from '../components/passwordForm';
 import PersonalInfoForm from '../components/personInfoForm';
 import Alert from '../components/alert';
-import { isAuthenticated } from '../scripts/auth';
+import { isConnected } from '../scripts/utils';
+import ProfileService from '../scripts/services/profileService';
+import UserService from '../scripts/services/userService';
 
-import { patchPassword, patchPerson, fetchPerson } from '../services/apiService';
-
-function GalleryOverview() {
+function EditarPerfil() {
 
     const [lastPassword, setLastPassword] = useState('');
     const [password, setPassword] = useState('');
@@ -19,18 +19,20 @@ function GalleryOverview() {
     const [msg, setMsg] = useState({ text: '', type: '' });
 
     useEffect(() => {
-        const getInforPerson = async () => {
-            try {
-                const response = await fetchPerson();
+        isConnected() ;
+    }, []);
+    
+    useEffect(() => {
+        ProfileService.fetchPerson()
+            .then(response => {
                 setNome(response.nome);
                 setData(response.data);
                 setSexo(response.sexo);
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-            }
-        };
-
-        getInforPerson();
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 2500);
+            });
     }, []);
 
 
@@ -53,16 +55,15 @@ function GalleryOverview() {
                 lastPassword: lastPassword,
                 password: password,
             };
-
-            try {
-                await patchPassword(body);
-                setMsg({ text: 'Senha alterada com sucesso.', type: 'success' });
-                setTimeout(() => window.location.href = '/workspace', 1500);
-            } catch (error) {
-                setMsg({ text: 'Erro ao alterar senha.', type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-                console.error('There has been a problem with your fetch operation:', error);
-            }
+            UserService.patchPassword(body)
+                .then(() => {
+                    setMsg({ text: 'Senha alterada com sucesso.', type: 'success' });
+                    setTimeout(() => window.location.href = '/workspace', 1500);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 2500);
+                });
         }
     };
 
@@ -70,23 +71,18 @@ function GalleryOverview() {
         e.preventDefault();
         const body = {
             nome: nome,
-            sexo:sexo,
+            sexo: sexo,
         };
-
-        try {
-            await patchPerson(body);
-            setMsg({ text: 'Perfil atualizado com sucesso.', type: 'success' });
-            setTimeout(() => window.location.href = '/workspace', 1500);
-        } catch (error) {
-            setMsg({ text: 'Erro ao alterar perfil.', type: 'error' });
-            setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            console.error('There has been a problem with your fetch operation:', error);
-        }
+        ProfileService.patchPerson(body)
+            .then(() => {
+                setMsg({ text: 'Perfil atualizado com sucesso.', type: 'success' });
+                setTimeout(() => window.location.href = '/workspace', 1500);
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 2500);
+            });
     };
-
-    useEffect(() => {
-        isAuthenticated();
-    }, []);
 
     return (
         <div className='bodyPage mx-5 '>
@@ -145,4 +141,4 @@ function GalleryOverview() {
     );
 }
 
-export default GalleryOverview;
+export default EditarPerfil;

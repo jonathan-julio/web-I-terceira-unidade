@@ -3,9 +3,11 @@ import FormColumn from '../components/formColumn';
 import PermissionForm from '../components/permissionForm';
 import AccessForm from '../components/accessForm';
 import PasswordForm from '../components/passwordFormAdmin';
-import { fetchBlocked, fetchLogs, fetchUsers, patchPasswordAdmin, postAcesso, postPermissao } from '../services/apiService';
 import Alert from '../components/alert';
-import { formatarData } from '../scripts/utils';
+import { formatarData, isConnected } from '../scripts/utils';
+import UserService from '../scripts/services/userService';
+import AdminService from '../scripts/services/adminService'
+import PostService from '../scripts/services/postService';
 
 function AdminPage() {
     const [users, setUsers] = useState([]);
@@ -26,33 +28,31 @@ function AdminPage() {
     const [bloqueados, setBloqueados] = useState('');
 
     useEffect(() => {
-        const getInforUsers = async () => {
-            try {
-                const data = await fetchUsers();
-                setUsers(data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
-        };
+        isConnected();
+    }, []);
 
-        getInforUsers();
+    useEffect(() => {
+        UserService.fetchUsers()
+            .then(response => setUsers(response))
+            .catch(error => console.error(error));
     }, []);
 
     const getLogs = async (e) => {
         e.preventDefault();
 
         if (userLog) {
-            try {
-                const data = await fetchLogs(userLog);
-                const logTexts = data.map(log => {
-                    return `Changer ${log.id}: ${log.changer}, \nData: ${formatarData(log.data)}\nFunction: ${log.function}\n\n`;
+            AdminService.fetchLogs(userLog)
+                .then(response => {
+                    const logTexts = response.map(log => {
+                        return `Changer ${log.id}: ${log.changer}, \nData: ${formatarData(log.data)}\nFunction: ${log.function}\n\n`;
+                    });
+                    const logsString = logTexts.join('');
+                    setLogs(logsString);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
                 });
-                const logsString = logTexts.join('');
-                setLogs(logsString);
-            } catch (error) {
-                setMsg({ text: error.message, type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            }
         } else {
             setMsg({ text: 'Nenhum usuario selecionado', type: 'error' });
             setTimeout(() => setMsg({ text: '', type: '' }), 1500);
@@ -62,18 +62,18 @@ function AdminPage() {
 
     const getBloqueados = async (e) => {
         e.preventDefault();
-
-        try {
-            const data = await fetchBlocked();
-            const logTexts = data.map(blocked => {
-                return `ID usuario : ${blocked.id}\nLogin : ${blocked.login} \nNome: ${blocked.person.nome}\n\n`;
+        AdminService.fetchBlocked()
+            .then(response => {
+                const logTexts = response.map(blocked => {
+                    return `ID usuario : ${blocked.id}\nLogin : ${blocked.login} \nNome: ${blocked.person.nome}\n\n`;
+                });
+                const logsString = logTexts.join('');
+                setBloqueados(logsString);
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
             });
-            const logsString = logTexts.join('');
-            setBloqueados(logsString);
-        } catch (error) {
-            setMsg({ text: error.message, type: 'error' });
-            setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-        }
     };
 
     const setRole = async (e) => {
@@ -83,14 +83,15 @@ function AdminPage() {
             tipo: permissao
         }
         if (userPermissao && permissao) {
-            try {
-                await postPermissao(body);
-                setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            } catch (error) {
-                setMsg({ text: error.message, type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            }
+            PostService.postPermissao(body)
+                .then(() => {
+                    setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                });
         } else {
             setMsg({ text: 'Nenhum usuario e/ou permissão selecionado', type: 'error' });
             setTimeout(() => setMsg({ text: '', type: '' }), 1500);
@@ -104,14 +105,15 @@ function AdminPage() {
             acesso: acesso
         }
         if (userAcesso && acesso) {
-            try {
-                await postAcesso(body);
-                setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            } catch (error) {
-                setMsg({ text: error.message, type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            }
+            PostService.postAcesso(body)
+                .then(() => {
+                    setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                });
         } else {
             setMsg({ text: 'Nenhum usuario e/ou acesso selecionado', type: 'error' });
             setTimeout(() => setMsg({ text: '', type: '' }), 1500);
@@ -137,15 +139,15 @@ function AdminPage() {
                 usuarioID: userSenha,
                 password: password,
             };
-
-            try {
-                await patchPasswordAdmin(body);
-                setMsg({ text: 'Senha alterada com sucesso.', type: 'success' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 2500);
-            } catch (error) {
-                setMsg({ text: error.message, type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            }
+            AdminService.patchPasswordAdmin(body)
+                .then(() => {
+                    setMsg({ text: 'Senha alterada com sucesso.', type: 'success' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 2500);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                });
         }
     };
 

@@ -1,3 +1,5 @@
+import UserService from "./services/userService";
+
 export function formatarData(dataString) {
   const dataObjeto = new Date(dataString);
 
@@ -20,7 +22,7 @@ export function formatarData(dataString) {
 
 export function verificaRota() {
   const url = window.location.pathname;
-  var regex = /\/(post|portfolio)\//;
+  var regex = /\/(post|portfolio|abs)\//;
   return regex.test(url);
 }
 
@@ -35,9 +37,18 @@ export const truncateText = (text, maxLength) => {
 export const renderHtmlWithLineBreaks = (text) => {
   if (!text) return '';
   return text.split('\n').map((line, index) => (
-      <span key={index}>
-          {line}
-          {index !== text.split('\n').length - 1 && <br />}
-      </span>
+    <span key={index}>
+      {line}
+      {index !== text.split('\n').length - 1 && <br />}
+    </span>
   ));
 };
+
+export function isConnected() {
+  UserService.isConnected()
+    .catch(() => {
+      localStorage.setItem('login', "");
+      localStorage.setItem('token', "");
+      window.location.href = '/';
+    });
+}

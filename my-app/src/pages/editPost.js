@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { fetchUsers, fetchPost, updatePost, deletePost } from '../services/apiService';
 import Alert from '../components/alert';
 import UserCheckboxList from '../components/userCheckboxList';
 import PostForm from '../components/postForm';
+import UserService from '../scripts/services/userService';
+import PostService from '../scripts/services/postService';
+import { isConnected } from '../scripts/utils';
+
+
 function Editar() {
     const [users, setUsers] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -16,34 +20,35 @@ function Editar() {
     const [filePreview, setFilePreview] = useState(null);
 
     useEffect(() => {
-        const getInforUsers = async () => {
-            try {
-                const data = await fetchUsers();
-                setUsers(data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
+        isConnected();
+    }, []);
+    
+    useEffect(() => {
+        UserService.fetchUsers()
+            .then(response => {
+                setUsers(response);
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
             }
-        };
-
-        getInforUsers();
+            );
     }, []);
 
     useEffect(() => {
-        const fetchPostData = async () => {
-            
-            try {
-                const data = await fetchPost(localStorage.editPost);
-                setDescricao(data.descricao);
-                setGithub(data.github);
-                setTitle(data.titulo);
-                setFilePreview(data.img);
-                setSelectedUsers(data.profile_ids);
-            } catch (error) {
-                console.error('Error fetching post data:', error);
+        PostService.fetchPost(localStorage.editPost)
+            .then(response => {
+                setDescricao(response.descricao);
+                setGithub(response.github);
+                setTitle(response.titulo);
+                setFilePreview(response.img);
+                setSelectedUsers(response.profile_ids);
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
             }
-        };
-
-        fetchPostData();
+            );
     }, []);
 
     const handleCheckboxChange = (userId) => {
@@ -75,29 +80,30 @@ function Editar() {
         if (file) {
             formData.append('file', file);
         }
-
-
-        try {
-            await updatePost(formData);
-            setMsg({ text: 'Publicação editada com sucesso.', type: 'success' });
-            setTimeout(() => window.location.href = '/workspace', 1500);
-        } catch (error) {
-            setMsg({ text: 'Erro ao editar publicação.', type: 'error' });
-            setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            console.error('Error updating post:', error);
-        }
+        PostService.updatePost(formData)
+            .then(() => {
+                setMsg({ text: 'Publicação editada com sucesso.', type: 'success' });
+                setTimeout(() => window.location.href = '/workspace', 1500);
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+            }
+            );
     };
 
     const handleDelete = async () => {
         if (window.confirm("Deseja deletar essa publicação?")) {
-            try {
-                await deletePost(localStorage.editPost);
-                setMsg({ text: 'Publicação deletada com sucesso.', type: 'success' });
-                setTimeout(() => window.location.href = '/workspace', 1500);
-            } catch (error) {
-                setMsg({ text: 'Erro ao deletar publicação.', type: 'error' });
-                console.error('Error deleting post:', error);
-            }
+            PostService.deletePost(localStorage.editPost)
+                .then(() => {
+                    setMsg({ text: 'Publicação deletada com sucesso.', type: 'success' });
+                    setTimeout(() => window.location.href = '/workspace', 1500);
+                })
+                .catch(error => {
+                    setMsg({ text: error.message, type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                }
+                );
         }
     };
 
@@ -106,7 +112,7 @@ function Editar() {
         if (selectedFile) {
             const fileURL = URL.createObjectURL(selectedFile);
             setFile(selectedFile);
-            setFilePreview(fileURL); 
+            setFilePreview(fileURL);
         } else {
             setFilePreview(null);
         }
@@ -125,7 +131,7 @@ function Editar() {
                     </div>
                 </div>
                 <div className="col-sm-9 col-md-10 col-lg-6 d-flex flex-wrap justify-content-start m-sm-5">
-                <PostForm
+                    <PostForm
                         title={title}
                         setTitle={setTitle}
                         descricao={descricao}

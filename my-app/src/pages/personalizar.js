@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Alert from '../components/alert';
-import { isAuthenticated } from '../scripts/auth';
-import { fetchUserByLogin, putProfile } from '../services/apiService';
 import PersonalizarForm from '../components/personalizarForm';
-import Portfolio from './portfolio';
+import UserService from '../scripts/services/userService';
+import ProfileService from '../scripts/services/profileService';
+import { isConnected } from '../scripts/utils';
 
 function Personalizar() {
     const [id, setID] = useState('');
@@ -13,33 +13,30 @@ function Personalizar() {
     const [corTexto, setCorTexto] = useState('');
     const [background, setBackground] = useState('');
 
-    const [posts, setPosts] = useState([]);
-
 
     const [msg, setMsg] = useState({ text: '', type: '' });
-    //const [iframeUrl, setIframeUrl] = useState('');
 
     useEffect(() => {
-        const getUserByLogin = async () => {
-            try {
-                const response = await fetchUserByLogin(localStorage.login);
+
+        UserService.fetchUserByLogin(localStorage.login)
+            .then(response => {
                 setID(response.person.profile.id)
                 setTextoPerfil(response.person.profile.texto);
                 setTextoSecundario(response.person.profile.textoSecundario);
                 setAbout(response.person.profile.about);
                 setCorTexto(response.person.profile.color);
                 setBackground(response.person.profile.background);
-                setPosts(response.posts);
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-            }
-        };
 
-        getUserByLogin();
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+            })
+
     }, []);
 
     useEffect(() => {
-        isAuthenticated();
+        isConnected();
     }, []);
 
 
@@ -53,16 +50,16 @@ function Personalizar() {
             color: corTexto,
             background: background
         };
-
-        try {
-            await putProfile(body);
+        ProfileService.putProfile(body)
+        .then(() => {
             setMsg({ text: 'Perfil atualizado com sucesso.', type: 'success' });
             setTimeout(() => window.location.href = '/workspace', 1500);
-        } catch (error) {
-            setMsg({ text: 'Erro ao alterar perfil.', type: 'error' });
+
+        })
+        .catch(error => {
+            setMsg({ text: error.message , type: 'error' });
             setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            console.error('There has been a problem with your fetch operation:', error);
-        }
+        })
     };
 
     return (
@@ -100,26 +97,16 @@ function Personalizar() {
                                 <h3 className='d-flex justify-content-center'>Pré visualização</h3>
                                 <div id="posts-container" className="scaled-portfolio  ">
 
-                                    <div style={{ width: '100%', height: '98%'}}>
-                                        <iframe   id='myiframe'
-                                            title= {localStorage.login}
-                                            src= {`/portfolio/${localStorage.login}`}
-                                            style={{ width: '100%', height: '100%' ,  }}
+                                    <div style={{ width: '100%', height: '98%' }}>
+                                        <iframe id='myiframe'
+                                            title={localStorage.login}
+                                            src={`/portfolio/${localStorage.login}`}
+                                            style={{ width: '100%', height: '100%', }}
                                         />
                                     </div>
-                                    {/* <Portfolio 
-                                    posts={posts}
-                                /> */}
                                 </div>
                             </div>
-
-
                         </div>
-
-                        {/* <div className="col-lg-4 scaled-portfolio">
-                            <h3>Portfolio</h3>
-                            <iframe src={iframeUrl} title="Portfolio" width="100%" height="600px" />
-                        </div> */}
                     </div>
                 </div>
             </aside>

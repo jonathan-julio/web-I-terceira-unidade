@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap';
 
-import { isLoggedIn } from '../scripts/auth';
-import { getInforUser } from '../scripts/workspace';
+import UserService from '../scripts/services/userService';
+import { isConnected } from '../scripts/utils';
 
 function Login() {
     const [alert, setVisibleAlert] = useState('');
@@ -16,44 +16,54 @@ function Login() {
         setVisibleAlert('visible');
         setTimeout(function () {
             setVisibleAlert('none');
-        }, 1500);
+        }, 2500);
     }
+
+    function asyncfetchUser() {
+        UserService.fetchUserByLogin(login)
+            .then(async response => {
+                localStorage.setItem('role', response.role);
+                localStorage.setItem('id', response.id);
+            })
+    }
+
+
+
 
     const authenticateUser = async (e) => {
         e.preventDefault();
         setIsLoading(true); // Ativa o indicador de carga
-
-        try {
-            const response = await fetch('http://localhost:8080/api/usuarios/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ login, senha }),
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('login', data.login);
-                localStorage.setItem('token', data.token);
-                await getInforUser();
+        asyncfetchUser();
+        const body = {
+            login: login,
+            senha: senha
+        }
+        UserService.login(body)
+            .then(async response => {
+                if ((response.errors && response.errors.length > 0) || response.status === 403) {
+                    alerta('Usuário ou senha inválidos');
+                } else if (response.status === 500) {
+                    alerta('Erro interno do servidor');
+                } else {
+                    localStorage.setItem('login', response.login);
+                    localStorage.setItem('token', response.token);
+                }
+            })
+            .catch(error => {
+                alerta('Erro ao autenticar usuário: ' + error);
+            })
+            .finally(() => {
+                setIsLoading(false);
                 if (localStorage.getItem('token')) {
                     window.location.href = '/workspace';
                 }
-            } else if (response.status === 403) {
-                alerta('Usuário ou senha inválido');
-            } else {
-                alerta('Erro ao autenticar usuário: ' + response.status);
-            }
-        } catch (error) {
-            alerta('Servidor indisponivel.');
-        } finally {
-            setIsLoading(false); // Desativa o indicador de carga após a requisição
-        }
+            })
+
+
     };
 
     useEffect(() => {
-        isLoggedIn();
+        isConnected ();
     }, []);
 
     return (

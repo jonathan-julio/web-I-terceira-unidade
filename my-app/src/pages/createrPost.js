@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap';
-import { isAuthenticated } from '../scripts/auth';
-import { fetchUsers, createPost } from '../services/apiService';
+import { isConnected } from '../scripts/utils';
 import Alert from '../components/alert';
 import UserCheckboxList from '../components/userCheckboxList';
 import PostForm from '../components/postForm';
+import UserService from '../scripts/services/userService';
+import PostService from '../scripts/services/postService';
 
 function CreatePost() {
     const [users, setUsers] = useState([]);
@@ -17,21 +18,16 @@ function CreatePost() {
 
     const [msg, setMsg] = useState({ text: '', type: '' });
 
+    
     useEffect(() => {
-        const getInforUsers = async () => {
-            try {
-                const data = await fetchUsers();
-                setUsers(data);
-                const loggedInUser = data.find(user => user.login === localStorage.login);
-                if (loggedInUser) {
-                    setSelectedUsers([loggedInUser.id]);
-                }
-            } catch (error) {
-                console.error('There has been a problem with your fetch operation:', error);
-            }
-        };
+        isConnected();
+    }, []);
 
-        getInforUsers();
+
+    useEffect(() => {
+        UserService.fetchUsers ()
+            .then(response => setUsers(response))
+            .catch(error => console.error(error));
     }, []);
 
     const handleCheckboxChange = (userId) => {
@@ -63,23 +59,16 @@ function CreatePost() {
         if (file) {
             formData.append('file', file);
         }
-
-       
-
-        try {
-            await createPost(formData);
-            setMsg({ text: 'Cadastro realizado com sucesso.', type: 'success' });
-            setTimeout(() => window.location.href = '/workspace', 1500);
-        } catch (error) {
-            setMsg({ text: 'Erro ao realizar cadastro.', type: 'error' });
-            setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            console.error('There has been a problem with your fetch operation:', error);
-        }
+        PostService.createPost(formData)
+            .then(()=> {
+                setMsg({ text: 'Cadastro realizado com sucesso.', type: 'success' });
+                setTimeout(() => window.location.href = '/workspace', 1500);
+            })
+            .catch(() => {
+                setMsg({ text: 'Erro ao realizar cadastro.', type: 'error' });
+                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+            });
     };
-
-    useEffect(() => {
-        isAuthenticated();
-    }, []);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchUserByLogin } from '../services/apiService';
+import UserService from '../scripts/services/userService';
 import styles from '../components/portfolio.module.css'; // Importação dos estilos CSS
 
 function Portfolio() {
@@ -15,25 +15,23 @@ function Portfolio() {
     const { username } = useParams();
 
     useEffect(() => {
-        const getInforPost = async () => {
-            try {
-                const data = await fetchUserByLogin(username);
-                setPosts(data.posts);
-                setTexto(data.person.profile.texto);
-                setTextoSecundario(data.person.profile.textoSecundario);
-                setColor(data.person.profile.color);
-                setBackground(data.person.profile.background);
-                setAbout(data.person.profile.about);
-                setNome(data.person.nome);
-            } catch (error) {
-                window.location.href = '/pagina-nao-encontrada';
-            } finally {
-                setLoading(false);
-            }
-        };
-
         if (username) {
-            getInforPost();
+            UserService.fetchUserByLogin(username)
+                .then(response => {
+                    setPosts(response.posts);
+                    setTexto(response.person.profile.texto);
+                    setTextoSecundario(response.person.profile.textoSecundario);
+                    setColor(response.person.profile.color);
+                    setBackground(response.person.profile.background);
+                    setAbout(response.person.profile.about);
+                    setNome(response.person.nome);
+                })
+                .catch(() => {
+                    window.location.href = '/pagina-nao-encontrada';
+                })
+                .finally(() => {
+                    setLoading(false)
+                })
         }
     }, [username]);
 
@@ -52,7 +50,7 @@ function Portfolio() {
                 </div>
                 <div className={styles.searchBox}>
                     <ul className={styles.menuItems}>
-                        <li><a href="#">Inicio</a></li>
+                        <li><a href="/">Inicio</a></li>
                         <li><a href="#endIntro">Projetos</a></li>
                         <li><a href="#endTimeline">Sobre</a></li>
                     </ul>
@@ -60,7 +58,7 @@ function Portfolio() {
             </header>
         );
     };
-    
+
     const Section = () => {
         return (
             <section id={styles.sectionIntro} className={styles.sectionLayout}>
@@ -79,7 +77,7 @@ function Portfolio() {
             </section>
         );
     };
-    
+
     const Projects = () => {
         return (
             <section className={styles.sectionProjects}>
@@ -110,7 +108,7 @@ function Portfolio() {
             </section>
         );
     };
-    
+
     const About = () => {
         return (
             <section id="about" className={styles.sectionAbout}>
@@ -126,11 +124,11 @@ function Portfolio() {
             </section>
         );
     };
-    
+
 
 
     return (
-        <div className={`${styles.container } pb-5 ` }  style={{ color: color, background: `linear-gradient(to bottom, ${background}, #3d3d3d)` }}>
+        <div className={`${styles.container} pb-5 `} style={{ color: color, background: `linear-gradient(to bottom, ${background}, #3d3d3d)` }}>
             <Header />
             <Section />
             <Projects />

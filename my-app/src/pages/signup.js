@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-import { createUser } from '../services/apiService';
 import Alert from '../components/alert';
+import UserService from '../scripts/services/userService';
 
 function Signup() {
     const [login, setLogin] = useState('');
@@ -41,27 +40,31 @@ function Signup() {
             }
         };
 
-        
+        UserService.createUser(body)
+            .then(async response => {
+                if (response.status === 201) {
+                    setMsg({ text: 'Cadastro realizado com sucesso.', type: 'success' });
+                    setTimeout(() => window.location.href = '/login', 1500);
+                } else {
+                    const asd = await response.json()
+                    console.log(asd)
+                    setMsg({ text: 'Erro ao realizar cadastro.', type: 'error' });
+                    setTimeout(() => setMsg({ text: '', type: '' }), 1500);
+                }
 
-        try {
-            const response = await createUser(body);
-            if (response.status === 201 ) {
-                setMsg({ text: 'Cadastro realizado com sucesso.', type: 'success' });
+            })
+            .catch(error => {
+                setMsg({ text: error.message, type: 'error' });
                 setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            } else {
-                setMsg({ text: 'Erro ao realizar cadastro.', type: 'error' });
-                setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-            }
-        } catch (error) {
-            setMsg({ text: 'Servidor indisponível.', type: 'error' });
-            setTimeout(() => setMsg({ text: '', type: '' }), 1500);
-        } finally {
-            setIsLoading(false);
-        }
+            })
+            .finally(() => {
+                setIsLoading(false);
+            })
+
     };
 
     return (
-        <div className="container justify-content-center">
+        <div className="container justify-content-center mb-5 pb-5">
             <Alert message={msg.text} type={msg.type} />
             <div className="mt-3 d-flex justify-content-center">
                 <div className="text-center">

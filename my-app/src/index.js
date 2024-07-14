@@ -15,12 +15,15 @@ import Password from './pages/password';
 import Workspace from './pages/workspace';
 import CreaterPost from './pages/createrPost';
 import Editar from './pages/editPost';
-import GalleryOverview from './pages/galleryOverview';
+import EditarPerfil from './pages/editarPerfil';
 import Personalizar from './pages/personalizar';
 import AdminPage from './pages/admin';
 import Post from './pages/post';
 import ErrorPage from './pages/errorPage';
 import Portfolio from './pages/portfolio';
+import ResetPassword from './pages/resetPassword';
+import NewPortfolio from './pages/newPortfolio';
+import Abs from './pages/abc';
 
 const router = createBrowserRouter([
   {
@@ -58,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/editar-perfil",
-        element : <GalleryOverview/>,
+        element : <EditarPerfil/>,
       },
       {
         path: "/personalizar",
@@ -69,6 +72,10 @@ const router = createBrowserRouter([
         element : <AdminPage />,
       },
       {
+        path : "/abs/:a",
+        element : <Abs/>
+      },
+      {
         path: "/post/:id",
         element : <Post/>,
       },
@@ -76,6 +83,14 @@ const router = createBrowserRouter([
         path: "/portfolio/:username",
         element : <Portfolio />,
       },
+      {
+        path : "/reset-password/token=:token",
+        element : <ResetPassword/>
+      },
+      {
+        path : "/teste/:a",
+        element : <NewPortfolio/>
+      }
       /* {
         path: "/post",
         element : <App/>,

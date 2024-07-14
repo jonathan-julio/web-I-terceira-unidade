@@ -178,11 +178,11 @@
   
   /* Estilos para o rodapé */
   .footer {
-    background-color: #333;
+    background-color: #636363;
     color: #fff;
     text-align: center;
-    padding: 20px 0;
-    position: fixed;
+    padding: 5px 0;
+    font-size: 12px;
     left: 0;
     bottom: 0;
     width: 100%;
