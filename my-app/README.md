@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Aplicativo de Portfólio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este é um aplicativo de portfólio que permite aos usuários criar, personalizar e compartilhar seus portfólios profissionais. O aplicativo inclui várias rotas para diferentes funcionalidades, como personalização, administração, visualização de postagens e redefinição de senha.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- **Personalizar Portfólio**: Permite aos usuários personalizar seu portfólio.
+- **Administração**: Página de administração para gerenciar o aplicativo.
+- **Visualização de Postagens**: Permite visualizar postagens específicas.
+- **Visualização de Portfólio**: Permite visualizar o portfólio de um usuário específico.
+- **Redefinição de Senha**: Permite aos usuários redefinir suas senhas.
+- **Teste de Novo Portfólio**: Permite testar a criação de um novo portfólio.
 
-### `npm start`
+## Rotas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- `/personalizar`: Rota para a página de personalização do portfólio.
+- `/admin`: Rota para a página de administração.
+- `/abs/:a`: Rota para a página Abs com um parâmetro dinâmico `a`.
+- `/post/:id`: Rota para visualizar uma postagem específica com o ID `id`.
+- `/portfolio/:username`: Rota para visualizar o portfólio de um usuário específico com o nome de usuário `username`.
+- `/reset-password/token=:token`: Rota para redefinir a senha com um token específico.
+- `/teste/:a`: Rota para testar a criação de um novo portfólio com um parâmetro dinâmico `a`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Estrutura do Projeto
 
-### `npm test`
+- **index.js**: Arquivo principal que define as rotas do aplicativo.
+- **Personalizar**: Componente para a página de personalização.
+- **AdminPage**: Componente para a página de administração.
+- **Abs**: Componente para a página Abs.
+- **Post**: Componente para visualizar postagens.
+- **Portfolio**: Componente para visualizar portfólios.
+- **ResetPassword**: Componente para redefinir a senha.
+- **NewPortfolio**: Componente para testar a criação de um novo portfólio.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Como Executar
 
-### `npm run build`
+1. Clone o repositório:
+    ```bash
+    git clone https://github.com/jonathan-julio/web-I-terceira-unidade.git
+    ```
+2. Navegue até o diretório do projeto:
+    ```bash
+    cd seu-repositorio
+    ```
+3. Instale as dependências:
+    ```bash
+    npm install
+    ```
+4. Inicie o aplicativo:
+    ```bash
+    npm start
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Contribuição
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Licença
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
