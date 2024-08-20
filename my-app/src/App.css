@@ -1,9 +1,16 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
 .App {
   text-align: center;
-  display: flex;
+  display: block;
   flex-direction: column;
   background-color: #ffffff;
+  min-height: 100vh;
 }
+
 
 .content {
   flex: 1;
@@ -11,7 +18,8 @@
 
 #card {
   width: 290px;
-  height: 400px;
+  height: 200px;
+  max-width: 300px;
 }
 
 .card-body {
@@ -19,12 +27,11 @@
   padding: 0;
 }
 
-.card-fixed {
-  width: 290px;
-  height: 400px;
-  padding: 0;
 
-  margin: 0;
+.card-fixed {
+  width: 250px;
+  height: 400px;
+  
 }
 
 
@@ -39,10 +46,12 @@
   height: 80px;
   max-width: 250px;
   font-size: 12px;
+  color: #000;
 }
-
 #img-card {
-  height: 150px;
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
   border-radius: 10px;
 }
 
@@ -217,6 +226,15 @@ legend.scheduler-border {
   background: #e0e0e0;
 }
 
+#descWord {
+  font-size: 12px;
+  overflow: hidden;
+  text-align: start;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: #000;
+}
+
 
 
 
@@ -226,6 +244,7 @@ legend.scheduler-border {
   text-align: start;
   padding-left: 10px;
   padding-right: 10px;
+  color: #000;
 }
 
 .content2 {
@@ -358,24 +377,22 @@ legend.scheduler-border {
 }
 
 .nav-link {
-  color: white !important;
+  color: #000 !important;
 }
 
 .nav-link:hover {
   color:#f06f33 !important;
 }
 
-.folder {
-  min-height: 85vh;
+footer {
+  background-color: #282c34;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  height: auto;
-  border-radius: 20px;
-  margin-bottom: 50px;
-  background: #1e1e1e;
-  display: block;
-  position: relative;
-  /* Alterado para relative para posicionar o ::before corretamente */
-  z-index: 1;
+  height: 40px; /* Ajuste a altura conforme necessário */
 }
 
 .folder::before {
@@ -480,6 +497,54 @@ legend.scheduler-border {
 }
 
 
-#sidebar {
-  border-radius: 20px;
+
+
+.liga-desliga__checkbox {
+  position: absolute;
+  left: -9999px;
+}
+
+.liga-desliga__botao {
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+}
+
+.liga-desliga__botao::before,
+.liga-desliga__botao::after {
+  content: "";
+  box-shadow: 0 0 0 1px #CCC;
+  transition: all 0.3s ease;
+}
+
+.liga-desliga__botao::before {
+  display: inline-block;
+  border-radius: 1em;
+  height: 1em;
+  width: 2em;
+  margin-right: 0.0em;
+  background: #900;
+}
+
+.liga-desliga__botao::after {
+  position: absolute;
+  top: 0.09em;
+  left: 0.025em;
+  width: 0.95em;
+  height: 0.95em;
+  border-radius: 100%;
+  background: #FFF;
+}
+
+.liga-desliga__checkbox:checked + .liga-desliga__botao::before {
+  background: #55D069;
+}
+
+.liga-desliga__checkbox:checked + .liga-desliga__botao::after {
+  left: 1.025em;
+}
+
+.liga-desliga__checkbox:focus + .liga-desliga__botao::before {
+  outline: 3px dotted #CCC;
 }

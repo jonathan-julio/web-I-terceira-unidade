@@ -36,16 +36,21 @@ function Portfolio({ posts }) {
     return (
       <section className="section-layout">
         <div id="section-intro">
-          <div id="s1d"><h1>{person.nome}</h1></div>
-          <div id="s1d" style={{ marginBottom: '20px', width: '60%', display: 'flex' }}>{profile.texto}</div>
-          <div id="s1d" style={{ fontSize: '20px', marginBottom: '50px' }}><a href="#endIntro">Saiba mais</a></div>
-        </div>
-        <div id="section-intro-icon">
-          <div id="s1e">{profile.textoSecundario}</div>
+          <div id="s1d-nome">
+            <h1>{person.nome}</h1>
+          </div>
+          <div className="text-container">
+            <div id="s1d-texto" className="text-box">
+              {profile.texto}
+            </div>
+            <div id="s1e-textoSecundario" className="text-box">
+              {profile.textoSecundario}
+            </div>
+          </div>
         </div>
       </section>
     );
-  }
+}
 
   function ProjectsSection({ posts }) {
     return (

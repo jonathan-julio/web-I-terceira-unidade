@@ -4,7 +4,7 @@ import logo from '../imgs/jpeg/gatinho.png';
 
 function Home() {
     return (
-        <div id='home' className="container">
+        <div className="container">
             <h1 className="mb-4 pt-5">Bem-vindo ao Nosso portfolio</h1>
             <div className="row pt-2">
                 <div className="col-md-8 text-monospace">

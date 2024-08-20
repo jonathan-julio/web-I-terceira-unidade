@@ -28,10 +28,9 @@ function Workspace() {
     }, []);
 
     return (
-        <div className='bodyPage mx-3'>
-            <aside className="gallery-overview m-3 ">
-                <div className="">
-                    <div className="row">
+        <div className='bodyPage mx-3 d-flex justify-content-center'>
+            <aside className="container pb-2">
+                    <div className="row " >
                         <div className="col-lg-3 p-5">
                             <div className="card-0">
                                 <h3>Seja bem vindo {sessionStorage.login}</h3>
@@ -58,7 +57,6 @@ function Workspace() {
 
                         </div>
                     </div>
-                </div>
             </aside>
         </div>
     );

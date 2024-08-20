@@ -4,7 +4,7 @@ import styles from '../components/portfolio.module.css';
 
 function FooterComponent() {
     return (
-        <div className={styles.footer}>
+        <div className='footer'>
             <footer>
                 <p>&copy; 2024 Jonathan Julio - Todos os direitos reservados.</p>
             </footer>

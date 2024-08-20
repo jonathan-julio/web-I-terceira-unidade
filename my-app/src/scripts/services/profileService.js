@@ -11,6 +11,10 @@ class ProfileService {
         return ApiService.requestJSONWithAuth('/profile/edit', 'PUT', body);
     }
 
+    static patchIsHtml(isHtml) {
+        return ApiService.requestJSONWithAuth(`/profile/alterar-html/${isHtml}`, 'PATCH', null);
+    }
+
     static fetchPerson() {
         return ApiService.requestJSONWithAuth(`/person/${localStorage.id}`, 'GET');
     }

@@ -10,9 +10,11 @@ function Portfolio() {
     const [color, setColor] = useState('');
     const [texto, setTexto] = useState('');
     const [textoSecundario, setTextoSecundario] = useState('');
+    const [usarHtmlProprio, setUsarHtmlProprio] = useState(false); // Novo estado para o checkbox
+    const [html, setHtml] = useState('');
     const [nome, setNome] = useState('');
     const [loading, setLoading] = useState(true);
-    const { username } = useParams();
+    const {username } = useParams();
 
     useEffect(() => {
         if (username) {
@@ -24,6 +26,8 @@ function Portfolio() {
                     setColor(response.person.profile.color);
                     setBackground(response.person.profile.background);
                     setAbout(response.person.profile.about);
+                    setUsarHtmlProprio(response.person.profile.isHtml === "true" ? true : false);
+                    setHtml(response.person.profile.html);
                     setNome(response.person.nome);
                 })
                 .catch(() => {
@@ -108,6 +112,7 @@ function Portfolio() {
             </section>
         );
     };
+    
 
     const About = () => {
         return (
@@ -126,6 +131,12 @@ function Portfolio() {
     };
 
 
+
+    if (usarHtmlProprio) {
+        return (
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+        );
+    }
 
     return (
         <div className={`${styles.container} pb-5 `} style={{ color: color, background: `linear-gradient(to bottom, ${background}, #3d3d3d)` }}>
