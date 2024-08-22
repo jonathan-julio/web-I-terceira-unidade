@@ -28,7 +28,7 @@ function Workspace() {
     }, []);
 
     return (
-        <div className='bodyPage mx-3 d-flex justify-content-center'>
+        <div className='bodyPage mx-3 '>
             <aside className="container pb-2">
                     <div className="row " >
                         <div className="col-lg-3 p-5">
