@@ -69,18 +69,15 @@ function Portfolio() {
                 <div>
                     <h1>{nome}</h1>
                 </div>
-                <div className={styles.sectionIntroText}>
-                    {texto}
-                </div>
+                <div className={styles.sectionIntroText} dangerouslySetInnerHTML={{ __html: texto }} />
                 <div className={styles.sectionIntroLink}>
                     <a href="#endIntro">Saiba mais</a>
                 </div>
-                <div id={styles.sectionIntroIcon}>
-                    {textoSecundario}
-                </div>
+                <div id={styles.sectionIntroIcon} dangerouslySetInnerHTML={{ __html: textoSecundario }} />
             </section>
         );
     };
+    
 
     const Projects = () => {
         return (

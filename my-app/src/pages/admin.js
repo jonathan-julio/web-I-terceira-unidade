@@ -83,7 +83,7 @@ function AdminPage() {
             tipo: permissao
         }
         if (userPermissao && permissao) {
-            PostService.postPermissao(body)
+            AdminService.postPermissao(body)
                 .then(() => {
                     setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
                     setTimeout(() => setMsg({ text: '', type: '' }), 1500);
@@ -105,7 +105,7 @@ function AdminPage() {
             acesso: acesso
         }
         if (userAcesso && acesso) {
-            PostService.postAcesso(body)
+            AdminService.postAcesso(body)
                 .then(() => {
                     setMsg({ text: 'Permissão alterada com sucesso.', type: 'success' });
                     setTimeout(() => setMsg({ text: '', type: '' }), 1500);
@@ -163,9 +163,9 @@ function AdminPage() {
                     <div className="row">
                         <FormColumn title="Buscar log" users={users} value={logs} setUser={setUserLog} fetch={getLogs} />
                         <FormColumn title="Buscar bloqueados" users={users} value={bloqueados} fetch={getBloqueados} />
-                        {localStorage.admin === "ADMIN" ? (<PermissionForm users={users} setUser={setUserPermissao} setPermissao={setPermissao} post={setRole} />) : (null)}
-                        {localStorage.admin === "ADMIN" ? (<AccessForm users={users} setUser={setUserAcesso} setAcesso={setAcesso} post={setAcessoFunction} />) : (null)}
-                        {localStorage.admin === "ADMIN" ? (<PasswordForm users={users} setUser={setUserSenha} password={password} setPasswrd={setPassword} checkPassword={checkPassword} setCheckPassword={setCheckPassword} submit={handleSave} />) : (null)}
+                        {localStorage.role === "ADMIN" ? (<PermissionForm users={users} setUser={setUserPermissao} setPermissao={setPermissao} post={setRole} />) : (null)}
+                        {localStorage.role === "ADMIN" ? (<AccessForm users={users} setUser={setUserAcesso} setAcesso={setAcesso} post={setAcessoFunction} />) : (null)}
+                        {localStorage.role === "ADMIN" ? (<PasswordForm users={users} setUser={setUserSenha} password={password} setPasswrd={setPassword} checkPassword={checkPassword} setCheckPassword={setCheckPassword} submit={handleSave} />) : (null)}
                     </div>
                 </div>
             </section>

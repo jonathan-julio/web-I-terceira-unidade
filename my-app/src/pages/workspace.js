@@ -18,6 +18,8 @@ function Workspace() {
             })
             .catch(error => console.error(error));
     }, []);
+    
+    
 
     function editPost(id) {
         localStorage.editPost = id;
@@ -38,7 +40,7 @@ function Workspace() {
                                 <a href="/new-post" className="btn btn-dark">Nova Postagem</a>
                             </div>
                         </div>
-                        <div className="col d-flex row justify-content-center mx-0 mx-sm-4">
+                        <div className="col d-flex row justify-content-center mx-0 mx-sm-4 mb-5">
                             <h3 className='row d-flex justify-content-center'>Suas Publicações</h3>
                             <div id="posts-container">
                                 <div className="">

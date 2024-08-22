@@ -47,6 +47,7 @@ function Login() {
                 } else {
                     localStorage.setItem('login', response.login);
                     localStorage.setItem('token', response.token);
+                    localStorage.setItem('role', response.role);
                 }
             })
             .catch(error => {
