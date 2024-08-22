@@ -35,16 +35,19 @@ function Signup() {
                     textoSecundario,
                     about,
                     color,
-                    background
+                    background,
+                    isHtml: "",
+                    html : ""
                 }
             }
         };
 
         UserService.createUser(body)
             .then(async response => {
+                console.log(response);
                 if (response.status === 201) {
                     setMsg({ text: 'Cadastro realizado com sucesso.', type: 'success' });
-                    setTimeout(() => window.location.href = '/login', 1500);
+                    setTimeout(() => window.location.href = '/', 1500);
                 } else {
                     const asd = await response.json()
                     console.log(asd)
